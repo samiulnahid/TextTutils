@@ -92,17 +92,18 @@ export default function TextForm(props) {
 
         //     setText(event.target.value);
         //     let newtext=navigator.clipboard.writeText(text);
-        //     console.log(newtext);
+        //   //  console.log(newtext);
         //     alert("text copied successfully");
 
 
             // /// another way
             ///   ///ata copy korle copy button a click korar pore input / textarea faka hoi a jabe na..mane textarea vitor j likha silo ta thakbei and oi likha copy o hobe.
 
-            let text = document.getElementById("myBox");
-            text.select();
-            navigator.clipboard.writeText(text.value)
-
+            // let text = document.getElementById("myBox");
+            // text.select();
+            // navigator.clipboard.writeText(text.value);
+            navigator.clipboard.writeText(text);
+            // document.getSelection().removeAllRanges();
             props.showAlert("successfully copyed all text" , "success")
           
     };
@@ -135,43 +136,46 @@ export default function TextForm(props) {
 
     }
 
+    
+
 
     return (
 
         <>
             <div className="container" style={{ color :props.mode === 'light' ? 'black': ' white' }}>
 
-                <h3 >{props.heading} </h3>
+                <h3 className="mb-2">{props.heading} </h3>
                 
                 <div className="mb-3">
-                    <label htmlFor="myBox" className="form-label">Example textarea</label>
+                    
                     {/* type korar jonne onChange use korte hobe.. r textarea value type ar sathe sathe change korar jonne textarea vitore value obossoi state hote hobe. jemon akhane --- value= {text}   */}
                     <textarea className="form-control" 
                               value= {text} 
                               onChange={handleOnChange} 
-                              style={{backgroundColor :props.mode === 'light' ? 'white': ' gray', color :props.mode === 'light' ? 'black': ' white' }} 
+                              style={{backgroundColor :props.mode === 'light' ? 'white': ' #3d5691', color :props.mode === 'light' ? 'black': ' white' }} 
                               id="myBox" 
                               rows="13">
 
                     </textarea>
                 </div>
-                <button className="btn btn-primary m-2" onClick={handleUpClick}> convert to uppercase</button>
-                <button className="btn btn-primary m-2" onClick={handleLowClick}> convert to lowercase</button>
-                <button className="btn btn-outline-primary m-2" onClick={handleCapFirstLetterClick}> Cpitalized first letter</button>
-                <button className="btn btn-outline-primary m-2" onClick={handleCapClick}> Cpitalized</button>
-                <button className="btn btn-outline-primary m-2" onClick={COPYIT}> COPY IT</button>
-                <button className="btn btn-outline-primary m-2" onClick={clickUniqueWords}> Unique Words</button>
-                <button className="btn btn-outline-primary m-2" onClick={handleExtraSpaces}>Remove Spaces</button>
-                <button className="btn btn-outline-primary m-2" onClick={handleClearText}>Clear </button>
+                <button disabled={text.length === 0} className="btn btn-primary m-2" onClick={handleUpClick}> convert to uppercase</button>
+                <button  disabled={text.length === 0} className="btn btn-primary m-2" onClick={handleLowClick}> convert to lowercase</button>
+                <button  disabled={text.length === 0} className="btn btn-outline-primary m-2" onClick={handleCapFirstLetterClick}> Cpitalized first letter</button>
+                <button  disabled={text.length === 0} className="btn btn-outline-primary m-2" onClick={handleCapClick}> Cpitalized</button>
+                <button  disabled={text.length === 0} className="btn btn-outline-primary m-2" onClick={COPYIT}> COPY IT</button>
+                <button disabled={text.length === 0}  className="btn btn-outline-primary m-2" onClick={clickUniqueWords}> Unique Words</button>
+                <button disabled={text.length === 0}  className="btn btn-outline-primary m-2" onClick={handleExtraSpaces}>Remove Spaces</button>
+                <button  disabled={text.length === 0} className="btn btn-outline-primary m-2" onClick={handleClearText}>Clear </button>
                 
             </div>
             <div className="container my-3" style={{ color :props.mode === 'light' ? 'black': ' white' }}>
                 <h2>Your text summary</h2>
-                <p>{text.split(" ").length} words {text.length} characters</p>
-                <p>{0.008 * text.split(" ").length} minutes read</p>
+                <p>{text.split(/\s+/).filter((element)=>{return element.length!==0}).length} words {text.length} characters</p>
+                <p>{0.008 * text.split(" ").filter((element)=>{return element.length!==0}).length} minutes read</p>
                 <h2> preview </h2>
-                <pre>{text.length>0 ? text : "enter somthing to Preview it here"}</pre>
+                <pre>{text.length>0 ? text : "nothing to preview"}</pre>
             </div>
         </>
     )
 }
+
